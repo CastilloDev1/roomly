@@ -2,7 +2,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from './configuration';
-import { User } from './modules/users/entities/user.entity';
+import { ReservationsModule } from './modules/reservations/reservations.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { RoomsModule } from './modules/rooms/rooms.module';
+import { typeOrmConfig } from './config/typeorm.config';
 
 @Module({
   imports: [
@@ -13,18 +16,11 @@ import { User } from './modules/users/entities/user.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('config.database.host'),
-        port: configService.get<number>('config.database.port'),
-        username: configService.get<string>('config.database.user'),
-        password: configService.get<string>('config.database.password'),
-        database: configService.get<string>('config.database.name'),
-        entities: [User],
-        synchronize: true,
-        logging: false,
-      }),
+      useFactory: typeOrmConfig,
     }),
+    ReservationsModule,
+    AuthModule,
+    RoomsModule,
   ],
 })
 export class AppModule {}

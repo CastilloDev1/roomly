@@ -1,0 +1,15 @@
+services:
+  postgres:
+    container_name: roomlydb
+    image: postgres:16-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: roomlydb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
