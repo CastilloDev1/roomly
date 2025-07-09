@@ -2,18 +2,15 @@ import { Reservation } from "src/modules/reservations/entities/reservation.entit
 import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, OneToMany } from "typeorm";
 
 @Entity()
-export class User {
+export class Room {
     @PrimaryGeneratedColumn()
     id: string;
 
     @Column("text")
     name: string;
 
-    @Column("text")
-    email: string;
-
-    @Column("text")
-    password: string;
+    @Column("integer")
+    max_capacity: number;
 
     @Column("timestamp", { default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date;
@@ -22,6 +19,6 @@ export class User {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    @OneToMany(() => Reservation, reservation => reservation.user)
+    @OneToMany(() => Reservation, reservation => reservation.room)
     reservations: Reservation[];
 }
